@@ -1,6 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/user/user");
 
 const requireSignIn = (req, res, next) => {
   const { authorization } = req.headers;
@@ -13,7 +13,7 @@ const requireSignIn = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, payload) => {
       if (err) {
-        return res.status(409).json({ error: err });
+        return res.status(409).json({ message: err.message });
       } else {
         const { _id } = payload;
         //console.log(_id);
@@ -26,7 +26,7 @@ const requireSignIn = (req, res, next) => {
               //console.log(req.user);
               next();
             } else {
-              return res.status(404).json({ error: "No user exists" });
+              return res.status(404).json({ message: "No user exists" });
             }
           })
           .catch((err) => {

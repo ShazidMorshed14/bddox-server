@@ -14,9 +14,11 @@ app.use(express.json());
 const connecDB = require("./db/connect");
 
 //importing the routes
-const user_routes = require("./routes/user/user");
+const user_routes = require("./routes/doctor/user/user");
+const dashboard_routes = require("./routes/doctor/dashboard/dashboard");
 
 app.use("/api/v1/auth", user_routes);
+app.use("/api/v1/dashboard", dashboard_routes);
 
 const start = async () => {
   try {
