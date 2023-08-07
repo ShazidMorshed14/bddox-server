@@ -112,25 +112,25 @@ const addPatient = async (req, res) => {
   }
 };
 
-// const updatePrescription = async (req, res) => {
-//   const { id } = req.params;
+const updatePatient = async (req, res) => {
+  const { id } = req.params;
 
-//   try {
-//     await Prescription.findByIdAndUpdate(id, req.body, { new: true })
-//       .then((data) => {
-//         res.status(200).json({
-//           success: true,
-//           message: `${model_name} Updated Successfully!`,
-//           data: data,
-//         });
-//       })
-//       .catch((err) => {
-//         return res.status(422).json({ error: err });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ error: error });
-//   }
-// };
+  try {
+    await Patient.findByIdAndUpdate(id, req.body, { new: true })
+      .then((data) => {
+        res.status(200).json({
+          success: true,
+          message: `${model_name} Updated Successfully!`,
+          data: data,
+        });
+      })
+      .catch((err) => {
+        return res.status(422).json({ error: err });
+      });
+  } catch (error) {
+    return res.status(422).json({ error: error });
+  }
+};
 
 // const prescriptionDetails = async (req, res) => {
 //   const { id } = req.params;
@@ -189,4 +189,5 @@ const addPatient = async (req, res) => {
 module.exports = {
   addPatient,
   getAllPatientsOfDoctor,
+  updatePatient,
 };

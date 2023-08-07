@@ -12,4 +12,6 @@ router.get(
   patientController.getAllPatientsOfDoctor
 );
 
+router.put("/update/:id", requireSignIn, patientController.updatePatient);
+
 module.exports = router;

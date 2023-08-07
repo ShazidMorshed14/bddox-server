@@ -7,13 +7,13 @@ const requireSignIn = (req, res, next) => {
   //console.log(authorization);
 
   if (!authorization) {
-    return res.status(409).json({ error: "token not authorized" });
+    return res.status(401).json({ error: "token not authorized" });
   } else {
     const token = authorization.replace("Bearer ", "");
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, payload) => {
       if (err) {
-        return res.status(409).json({ message: err.message });
+        return res.status(401).json({ message: err.message });
       } else {
         const { _id } = payload;
         //console.log(_id);
