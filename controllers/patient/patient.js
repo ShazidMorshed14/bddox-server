@@ -125,10 +125,10 @@ const updatePatient = async (req, res) => {
         });
       })
       .catch((err) => {
-        return res.status(422).json({ error: err });
+        return res.status(422).json({ message: err });
       });
   } catch (error) {
-    return res.status(422).json({ error: error });
+    return res.status(422).json({ message: error });
   }
 };
 
@@ -166,28 +166,29 @@ const updatePatient = async (req, res) => {
 //   }
 // };
 
-// const deletePrescription = async (req, res) => {
-//   const { id } = req.params;
+const deletePatient = async (req, res) => {
+  const { id } = req.params;
 
-//   try {
-//     await Prescription.findByIdAndDelete(id)
-//       .then((data) => {
-//         res.status(200).json({
-//           success: true,
-//           message: `${model_name} deleted Successfully!`,
-//           data: data,
-//         });
-//       })
-//       .catch((err) => {
-//         return res.status(422).json({ error: err });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ error: error });
-//   }
-// };
+  try {
+    await Patient.findByIdAndDelete(id)
+      .then((data) => {
+        res.status(200).json({
+          success: true,
+          message: `${model_name} deleted Successfully!`,
+          data: data,
+        });
+      })
+      .catch((err) => {
+        return res.status(422).json({ message: err });
+      });
+  } catch (error) {
+    return res.status(422).json({ message: error });
+  }
+};
 
 module.exports = {
   addPatient,
   getAllPatientsOfDoctor,
   updatePatient,
+  deletePatient,
 };

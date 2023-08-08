@@ -13,5 +13,6 @@ router.get(
 );
 
 router.put("/update/:id", requireSignIn, patientController.updatePatient);
+router.delete("/delete/:id", requireSignIn, patientController.deletePatient);
 
 module.exports = router;
