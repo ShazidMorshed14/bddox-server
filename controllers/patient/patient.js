@@ -132,39 +132,23 @@ const updatePatient = async (req, res) => {
   }
 };
 
-// const prescriptionDetails = async (req, res) => {
-//   const { id } = req.params;
+const patientDetails = async (req, res) => {
+  const { id } = req.params;
 
-//   try {
-//     await Prescription.findOne({ _id: id })
-//       .populate("doctorId")
-//       .then((data) => {
-//         return res.status(200).json({
-//           success: true,
-//           message: `${model_name} fetched Successfully!`,
-//           data: data,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ error: error });
-//   }
-// };
-
-// const doctorPrescriptionDetails = async (req, res) => {
-//   try {
-//     await Prescription.findOne({ doctorId: req.user._id })
-//       .populate("doctorId")
-//       .then((data) => {
-//         return res.status(200).json({
-//           success: true,
-//           message: `${model_name} fetched Successfully!`,
-//           data: data,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ error: error });
-//   }
-// };
+  try {
+    await Patient.findOne({ _id: id })
+      .populate("ref")
+      .then((data) => {
+        return res.status(200).json({
+          success: true,
+          message: `${model_name} fetched Successfully!`,
+          data: data,
+        });
+      });
+  } catch (error) {
+    return res.status(422).json({ error: error });
+  }
+};
 
 const deletePatient = async (req, res) => {
   const { id } = req.params;
@@ -191,4 +175,5 @@ module.exports = {
   getAllPatientsOfDoctor,
   updatePatient,
   deletePatient,
+  patientDetails,
 };
