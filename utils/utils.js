@@ -18,4 +18,18 @@ function generateHashedPassword(password) {
   return (hashedPassword = bcrypt.hashSync(password, 10));
 }
 
-module.exports = { generateUniqueCode, generateHashedPassword };
+function formatPhoneNumber(phoneNumber) {
+  if (phoneNumber.startsWith("+")) {
+    return phoneNumber.substring(1); // Remove the leading "+"
+  }
+  if (phoneNumber.startsWith("0")) {
+    return "+880" + phoneNumber.substring(1); // Remove the leading 0 and add +880
+  }
+  return phoneNumber;
+}
+
+module.exports = {
+  generateUniqueCode,
+  generateHashedPassword,
+  formatPhoneNumber,
+};

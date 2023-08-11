@@ -6,6 +6,6 @@ const userControllers = require("../../../controllers/user/user");
 //importing the controllers
 
 router.post("/signup", userControllers.signup);
-router.post("/signin", userControllers.signin);
+router.post("/login", userControllers.signin);
 
 module.exports = router;
