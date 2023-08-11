@@ -6,13 +6,29 @@ const appointmentController = require("../../../controllers/appointment/appointm
 const { requireSignIn } = require("../../../middlewares/auth");
 
 router.post("/create", requireSignIn, appointmentController.addAppointment);
+
 router.get(
   "/doctor-wise",
   requireSignIn,
   appointmentController.getAllAppointmentsOfDoctor
 );
 
-// router.put("/update/:id", requireSignIn, patientController.updatePatient);
-// router.delete("/delete/:id", requireSignIn, patientController.deletePatient);
+router.get(
+  "/details/:id",
+  requireSignIn,
+  appointmentController.appointmentDetails
+);
+
+router.put(
+  "/update/:id",
+  requireSignIn,
+  appointmentController.updateAppointment
+);
+
+router.delete(
+  "/delete/:id",
+  requireSignIn,
+  appointmentController.deleteAppointment
+);
 
 module.exports = router;

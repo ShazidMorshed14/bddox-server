@@ -127,65 +127,68 @@ const addAppointment = async (req, res) => {
   }
 };
 
-// const updatePatient = async (req, res) => {
-//   const { id } = req.params;
+const updateAppointment = async (req, res) => {
+  const { id } = req.params;
 
-//   try {
-//     await Patient.findByIdAndUpdate(id, req.body, { new: true })
-//       .then((data) => {
-//         res.status(200).json({
-//           success: true,
-//           message: `${model_name} Updated Successfully!`,
-//           data: data,
-//         });
-//       })
-//       .catch((err) => {
-//         return res.status(422).json({ message: err });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ message: error });
-//   }
-// };
+  try {
+    await Appointment.findByIdAndUpdate(id, req.body, { new: true })
+      .then((data) => {
+        res.status(200).json({
+          success: true,
+          message: `${model_name} Updated Successfully!`,
+          data: data,
+        });
+      })
+      .catch((err) => {
+        return res.status(422).json({ message: err });
+      });
+  } catch (error) {
+    return res.status(422).json({ message: error });
+  }
+};
 
-// const patientDetails = async (req, res) => {
-//   const { id } = req.params;
+const appointmentDetails = async (req, res) => {
+  const { id } = req.params;
 
-//   try {
-//     await Patient.findOne({ _id: id })
-//       .populate("ref")
-//       .then((data) => {
-//         return res.status(200).json({
-//           success: true,
-//           message: `${model_name} fetched Successfully!`,
-//           data: data,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ error: error });
-//   }
-// };
+  try {
+    await Appointment.findOne({ _id: id })
+      .populate("doctorId patientId")
+      .then((data) => {
+        return res.status(200).json({
+          success: true,
+          message: `${model_name} fetched Successfully!`,
+          data: data,
+        });
+      });
+  } catch (error) {
+    return res.status(422).json({ error: error });
+  }
+};
 
-// const deletePatient = async (req, res) => {
-//   const { id } = req.params;
+const deleteAppointment = async (req, res) => {
+  const { id } = req.params;
 
-//   try {
-//     await Patient.findByIdAndDelete(id)
-//       .then((data) => {
-//         res.status(200).json({
-//           success: true,
-//           message: `${model_name} deleted Successfully!`,
-//           data: data,
-//         });
-//       })
-//       .catch((err) => {
-//         return res.status(422).json({ message: err });
-//       });
-//   } catch (error) {
-//     return res.status(422).json({ message: error });
-//   }
-// };
+  try {
+    await Appointment.findByIdAndDelete(id)
+      .then((data) => {
+        res.status(200).json({
+          success: true,
+          message: `${model_name} deleted Successfully!`,
+          data: data,
+        });
+      })
+      .catch((err) => {
+        return res.status(422).json({ message: err });
+      });
+  } catch (error) {
+    return res.status(422).json({ message: error });
+  }
+};
 
 module.exports = {
   addAppointment,
   getAllAppointmentsOfDoctor,
+  updateAppointment,
+  appointmentDetails,
+  deleteAppointment,
 };
