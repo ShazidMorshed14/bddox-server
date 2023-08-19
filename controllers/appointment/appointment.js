@@ -1,12 +1,13 @@
 const Appointment = require("../../models/appointment/appointment");
 const { generateUniqueCode, formatPhoneNumber } = require("../../utils/utils");
+const dayjs = require("dayjs");
 
 const model_name = "Appointment";
 
 const getAllAppointmentsOfDoctor = async (req, res) => {
   try {
     const authenticatedUserId = req.user._id;
-    let { page, pageSize, pageLess, pid, name, phone } = req.query;
+    let { page, pageSize, pageLess, pid, aid, name, phone, type } = req.query;
 
     page = page ? parseInt(page) : 1;
     pageSize = pageSize ? parseInt(pageSize) : 10;
@@ -16,8 +17,14 @@ const getAllAppointmentsOfDoctor = async (req, res) => {
 
     query.doctorId = authenticatedUserId;
 
+    if (aid) {
+      query.aid = { $regex: aid, $options: "i" };
+    }
+
     if (pid) {
-      query.pid = { $regex: pid, $options: "i" };
+      query["patientId.pid"] = pid.toString(); // Use dot notation to query nested field
+      console.log("Query:", query);
+      console.log("pid:", pid);
     }
 
     // if (phone) {
@@ -30,6 +37,30 @@ const getAllAppointmentsOfDoctor = async (req, res) => {
     // if (name) {
     //   query.name = { $regex: name, $options: "i" };
     // }
+
+    // Add date filter based on the "type" parameter using Day.js
+    if (type === "today") {
+      const todayStart = dayjs().startOf("day");
+      const todayEnd = dayjs().endOf("day");
+      query.date = {
+        $gte: todayStart.format("DD-MM-YYYY"),
+        $lte: todayEnd.format("DD-MM-YYYY"),
+      };
+    } else if (type === "this_week") {
+      const startOfWeek = dayjs().startOf("week");
+      const endOfWeek = dayjs().endOf("week");
+      query.date = {
+        $gte: startOfWeek.format("DD-MM-YYYY"),
+        $lte: endOfWeek.format("DD-MM-YYYY"),
+      };
+    } else if (type === "this_month") {
+      const startOfMonth = dayjs().startOf("month");
+      const endOfMonth = dayjs().endOf("month");
+      query.date = {
+        $gte: startOfMonth.format("DD-MM-YYYY"),
+        $lte: endOfMonth.format("DD-MM-YYYY"),
+      };
+    }
 
     if (pageLess) {
       // If pageLess is true, return all patients
