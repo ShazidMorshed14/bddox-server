@@ -18,11 +18,13 @@ const user_routes = require("./routes/doctor/user/user");
 const dashboard_routes = require("./routes/doctor/dashboard/dashboard");
 const prescription_routes = require("./routes/doctor/prescription/prescription");
 const patient_routes = require("./routes/doctor/patient/patient");
+const appointment_routes = require("./routes/doctor/appointment/appointment");
 
 app.use("/api/v1/auth", user_routes);
 app.use("/api/v1/dashboard", dashboard_routes);
 app.use("/api/v1/prescription", prescription_routes);
 app.use("/api/v1/patient", patient_routes);
+app.use("/api/v1/appointment", appointment_routes);
 
 const start = async () => {
   try {
