@@ -12,6 +12,10 @@ const medicineSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    sku: {
+      type: String,
+      require: true,
+    },
     formatId: {
       type: ObjectId,
       ref: "Format",

@@ -1,9 +1,9 @@
-const Generic = require("../../models/generic/generic");
+const Company = require("../../models/company/company");
 const slugify = require("slugify");
 
-const model_name = "Generic";
+const model_name = "Company";
 
-const getAllGenericsOfDoctor = async (req, res) => {
+const getAllCompanysOfDoctor = async (req, res) => {
   try {
     const authenticatedUserId = req.user._id;
     let { name, sku, status } = req.query;
@@ -24,26 +24,26 @@ const getAllGenericsOfDoctor = async (req, res) => {
       query.status = status;
     }
 
-    const Generics = await Generic.find(query);
+    const Companys = await Company.find(query);
 
     return res.status(200).json({
       status: 200,
-      message: "Generics fetched successfully!",
+      message: "Companys fetched successfully!",
       data: {
-        generics: Generics,
+        Companys: Companys,
       },
     });
   } catch (error) {
-    console.error("Error fetching Generics:", error);
+    console.error("Error fetching Companys:", error);
     res.status(500).json({ error: "Error fetching tags" });
   }
 };
 
-const addGeneric = async (req, res) => {
+const addCompany = async (req, res) => {
   try {
     const { name, status } = req.body;
 
-    const checkIfAlreadyExists = await Generic.findOne({
+    const checkIfAlreadyExists = await Company.findOne({
       doctorId: req.user._id,
       name: name,
     });
@@ -52,14 +52,14 @@ const addGeneric = async (req, res) => {
       return res.status(409).json({ message: "This Option already exists!" });
     }
 
-    const newGeneric = new Generic({
+    const newCompany = new Company({
       doctorId: req.user._id,
       name: name,
       sku: slugify(name),
       status: status ? status : "active",
     });
 
-    await newGeneric
+    await newCompany
       .save()
       .then((data) => {
         res.status(200).json({
@@ -77,11 +77,11 @@ const addGeneric = async (req, res) => {
   }
 };
 
-const updateGeneric = async (req, res) => {
+const updateCompany = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await Generic.findByIdAndUpdate(id, req.body, { new: true })
+    await Company.findByIdAndUpdate(id, req.body, { new: true })
       .then((data) => {
         res.status(200).json({
           success: true,
@@ -97,11 +97,11 @@ const updateGeneric = async (req, res) => {
   }
 };
 
-const deleteGeneric = async (req, res) => {
+const deleteCompany = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await Generic.findByIdAndDelete(id)
+    await Company.findByIdAndDelete(id)
       .then((data) => {
         res.status(200).json({
           success: true,
@@ -118,8 +118,8 @@ const deleteGeneric = async (req, res) => {
 };
 
 module.exports = {
-  getAllGenericsOfDoctor,
-  addGeneric,
-  updateGeneric,
-  deleteGeneric,
+  getAllCompanysOfDoctor,
+  addCompany,
+  updateCompany,
+  deleteCompany,
 };
