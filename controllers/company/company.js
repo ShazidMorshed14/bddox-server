@@ -24,13 +24,13 @@ const getAllCompanysOfDoctor = async (req, res) => {
       query.status = status;
     }
 
-    const Companys = await Company.find(query);
+    const companies = await Company.find(query);
 
     return res.status(200).json({
       status: 200,
       message: "Companys fetched successfully!",
       data: {
-        Companys: Companys,
+        companies: companies,
       },
     });
   } catch (error) {
