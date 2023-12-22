@@ -7,9 +7,20 @@ const model_name = "Medicine";
 const getAllMedicinesOfDoctor = async (req, res) => {
   try {
     const authenticatedUserId = req.user._id;
-    let { name, sku, formatId, genericId, companyId, status } = req.query;
+    let {
+      name,
+      sku,
+      formatId,
+      genericId,
+      companyId,
+      status,
+      pageLess,
+      page,
+      pageSize,
+    } = req.query;
 
     let query = {};
+    let totalCount = 0;
 
     query.doctorId = authenticatedUserId;
 
@@ -37,17 +48,45 @@ const getAllMedicinesOfDoctor = async (req, res) => {
       query.status = status;
     }
 
-    const Medicines = await Medicine.find(query).populate(
-      "formatId genericId companyId"
-    );
+    if (pageLess) {
+      // If pageLess is true, return all patients
+      const Medicines = await Medicine.find(query).populate(
+        "formatId genericId companyId"
+      );
+      totalCount = Medicines.length;
 
-    return res.status(200).json({
-      status: 200,
-      message: "Medicines fetched successfully!",
-      data: {
-        medicines: Medicines,
-      },
-    });
+      if (pageLess !== undefined && pageLess === "true") {
+        return res.status(200).json({
+          status: 200,
+          message: "Medicines fetched successfully!",
+          data: {
+            medicines: Medicines,
+            total: totalCount,
+          },
+        });
+      }
+    } else {
+      // If pageLess is false or not provided, apply pagination
+      const skip = (parseInt(page) - 1) * parseInt(pageSize);
+      const limit = parseInt(pageSize);
+
+      const paginatedMedicines = await Medicine.find(query)
+        .populate("formatId genericId companyId")
+        .sort({ _id: -1 })
+        .skip(skip)
+        .limit(limit);
+
+      totalCount = await Medicine.countDocuments(query);
+
+      return res.status(200).json({
+        status: 200,
+        message: `${model_name} fetched successfully!`,
+        data: {
+          medicines: paginatedMedicines,
+          total: totalCount,
+        },
+      });
+    }
   } catch (error) {
     console.error("Error fetching Medicines:", error);
     res.status(500).json({ error: "Error fetching tags" });
