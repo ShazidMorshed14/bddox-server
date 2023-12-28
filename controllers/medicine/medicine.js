@@ -3,6 +3,7 @@ const slugify = require("slugify");
 const { generateUniqueCode } = require("../../utils/utils");
 
 const model_name = "Medicine";
+//medicine module completed
 
 const getAllMedicinesOfDoctor = async (req, res) => {
   try {
