@@ -18,11 +18,24 @@ const user_routes = require("./routes/doctor/user/user");
 const dashboard_routes = require("./routes/doctor/dashboard/dashboard");
 const prescription_routes = require("./routes/doctor/prescription/prescription");
 const patient_routes = require("./routes/doctor/patient/patient");
+const appointment_routes = require("./routes/doctor/appointment/appointment");
+const tag_routes = require("./routes/doctor/tag/tag");
+const format_routes = require("./routes/doctor/format/format");
+const generic_routes = require("./routes/doctor/generic/generic");
+const company_routes = require("./routes/doctor/company/company");
+const medicine_routes = require("./routes/doctor/medicine/medicine");
 
+//assigning the routes
 app.use("/api/v1/auth", user_routes);
 app.use("/api/v1/dashboard", dashboard_routes);
 app.use("/api/v1/prescription", prescription_routes);
 app.use("/api/v1/patient", patient_routes);
+app.use("/api/v1/appointment", appointment_routes);
+app.use("/api/v1/tag", tag_routes);
+app.use("/api/v1/format", format_routes);
+app.use("/api/v1/generic", generic_routes);
+app.use("/api/v1/company", company_routes);
+app.use("/api/v1/medicine", medicine_routes);
 
 const start = async () => {
   try {
